@@ -141,28 +141,14 @@ function cfm_show_menu(){
 	if( !cfm_has_menu() ){
 		return;
 	}
-	
-	$container_class = 'cfn_menu_floating_menu_container';
-	$options = cfm_get_options();
-	if( 'animated' == $options['animation'] ){
-		$container_class.= ' animated';
-	}
-	if( 'right' == $options['position'] ){
-		$container_class.= ' right';
-	}
-	
-	
-	// get the menu
-    $args = array(
-		'theme_location' 	=> CFM_LOCATION,
-		'menu' 				=> '',
-		'container' 		=> 'div',
-		'container_class' 	=> $container_class,
-		'container_id' 		=> 'cfn_floating_menu',
-		'echo' 				=> true
-	);		
+	// send only the flag that the menu is codeflavors's
+	$args = array('is_cfm_menu' => true);
+	// add a filter on args to put back the right args
+	add_filter('wp_nav_menu_args', 'cfm_nav_menu_args', 5000, 1);
+	// show the menu	
 	wp_nav_menu($args);
-
+	// plugin options
+	$options = cfm_get_options();
 	$opt = array(
 		'top_distance' => $options['top_distance'],
 		'animate' => 'animated' == $options['animation'] ? 1 : 0,
@@ -174,6 +160,48 @@ function cfm_show_menu(){
 	$params.= "\tvar CFM_MENU_PARAMS='".json_encode($opt)."';\n";
 	$params.= '</script>'."\n";
 	echo $params;
+}
+
+/**
+ * Put back the right args on the menu to ensure other plugins or themes don't add 
+ * classes or ids
+ * @param array $args
+ */
+function cfm_nav_menu_args($args){
+	
+	if( !isset($args['is_cfm_menu']) ){
+		return $args;
+	}
+	
+	$container_class = 'cfn_menu_floating_menu_container';
+	$options = cfm_get_options();
+	if( 'animated' == $options['animation'] ){
+		$container_class.= ' animated';
+	}
+	if( 'right' == $options['position'] ){
+		$container_class.= ' right';
+	}	
+	
+	// get the menu
+    $args = array(
+		'menu' 				=> '',
+	    'container' 		=> 'div',
+		'container_class' 	=> $container_class,
+		'container_id' 		=> 'cfn_floating_menu',
+    	'menu_class' 		=> 'menu', 
+    	'menu_id' 			=> '',
+    	'echo' 				=> true,
+    	'fallback_cb' 		=> 'wp_page_menu', 
+    	'before' 			=> '', 
+    	'after' 			=> '', 
+    	'link_before' 		=> '', 
+    	'link_after' 		=> '', 
+    	'items_wrap' 		=> '<ul id="%1$s" class="%2$s">%3$s</ul>',
+		'depth' 			=> 0, 
+		'walker' 			=> '',    
+    	'theme_location' 	=> CFM_LOCATION		
+	);	
+	return $args;	
 }
 
 /**
@@ -229,7 +257,7 @@ function cfm_menu_title_filter( $id, $item ){
 add_action('wp_print_styles', 'cfm_frontend_styles');
 // action callback
 function cfm_frontend_styles(){
-	if( !cfm_has_menu() ){
+	if( is_admin() || !cfm_has_menu() ){
 		return;
 	}	
 	wp_enqueue_style('cfm_frontend_menu', plugins_url('css/cfm_menu.css', __FILE__));
@@ -241,7 +269,7 @@ function cfm_frontend_styles(){
 add_action('wp_print_scripts', 'cfm_frontend_scripts');
 // action callback
 function cfm_frontend_scripts(){
-	if( !cfm_has_menu() ){
+	if( is_admin() || !cfm_has_menu() ){
 		return;
 	}
 	wp_enqueue_script('cfm_frontend_menu', plugins_url('js/cfm_menu.js', __FILE__), array('jquery'));	

@@ -33,9 +33,7 @@
 		position:relative;
 		margin:0px;
 		padding:0px;
-		list-style-type:none;
-		-moz-box-shadow:2px 2px 2px #CCC;
-		box-shadow:2px -1px 4px #CCC;
+		list-style-type:none;		
 	}
 		/**
 		 * List elements inside the menu
@@ -45,8 +43,9 @@
 			position:relative;
 			margin:0px;
 			padding:0px;
-			font-size:12px;
-			border-bottom:1px #2B2B2B solid;
+			float:none;
+			width:100%;
+			clear:both;
 			white-space:nowrap;		
 		}
 			/**
@@ -56,18 +55,7 @@
 				display:block;
 				position:relative;
 				padding:5px 10px 5px;
-				background:#000;
-				color:#FFF;
-				text-decoration:none;
-			}
-				/**
-				 * Hovered and active anchor design
-				 */
-				#cfn_floating_menu ul li a:HOVER,
-				#cfn_floating_menu ul li a.currentItem{
-					color:#FFF;
-					background:#999;					
-				}
+			}				
 		/**
 		 * Submenus
 		 */
@@ -85,3 +73,40 @@
 			right:100%;
 			left:auto;
 		}
+		
+/**
+ * MENU DESIGN - do all design changes below
+ */	
+
+/**
+ * Menu container
+ */		
+#cfn_floating_menu ul{
+	-moz-box-shadow:2px 2px 2px #CCC;
+	-webkit-box-shadow:2px 2px 2px #CCC;
+	 box-shadow:2px -1px 4px #CCC;
+}
+	/**
+	 * Menu anchor container
+	 */
+	#cfn_floating_menu ul li{
+		font-size:12px;
+		border-bottom:1px #2B2B2B solid;
+	}
+		/**
+		 * Menu anchor
+		 */
+		#cfn_floating_menu ul li a{
+			background:#000;
+			color:#FFF;
+			text-decoration:none;
+		}
+		/**
+		 * Hovered and active anchor design
+		 */
+		#cfn_floating_menu ul li a:HOVER,
+		#cfn_floating_menu ul li a.currentItem{
+			color:#FFF;
+			background:#999;					
+		}
+		

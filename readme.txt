@@ -15,7 +15,7 @@ Create navigation menus on the left or right side of any WordPress blog.
 
 **Available options**
 
-* menu animation on page scroll; can be fixed, no animation, or can smoothly scroll up and down when scolling window;
+* menu animation on page scroll; can be fixed, no animation, or can smoothly scroll up and down when scrolling window;
 * menu position (left or right side of your blog);
 * top distance - minimum distance from top of the window;
 * menu title - if left not empty, the first item from the menu will be the text entered into this option.
