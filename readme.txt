@@ -20,6 +20,12 @@ Create navigation menus on the left or right side of any WordPress blog.
 * top distance - minimum distance from top of the window;
 * menu title - if left not empty, the first item from the menu will be the text entered into this option.
 
+**Important links:**
+
+* [Documentation](http://www.codeflavors.com/documentation/ "CodeFlavors Floating Menu for WordPress documentation") on plugin usage and CSS structure;
+* [Forums](http://www.codeflavors.com/codeflavors-forums/ "CodeFlavors Community Forums") (while we try to keep up with the forums here, please post any requests on our forums for a faster response);
+* [CodeFlavors Floating Menu homepage](http://www.codeflavors.com/codeflavors-floating-menu-wordpress-plugin/ "CodeFlavors Floating Menu for WordPress")
+
 == Installation ==
 
 Like any other plugin, it can be installed manually or directly from WordPress installation Plugins page. 
@@ -27,6 +33,8 @@ Like any other plugin, it can be installed manually or directly from WordPress i
 Once activated, under Appearance, a new entry will be created called **CodeFlavors Menu** with the available settings.
 
 To display a menu, from Appearance->Menus, select a menu to be placed into **CodeFlavors floating menu** menu position. 
+
+You may also view the [documentation](http://www.codeflavors.com/documentation/ "CodeFlavors Floating Menu for WordPress documentation") on plugin usage and CSS structure.
 
 That's  all, enjoy.  
 
@@ -43,4 +51,4 @@ That's  all, enjoy.
 
 == Troubleshooting ==
 
-Plugin was tested using WordPress 3.4.1 with theme TwentyEleven in FireFox, Chrome and IE8. Other themes may not be CSS compatible with the plugin. If it's your case, please post into the forums the theme you're using, WordPress version and browser used to view the website. 
+Plugin was tested using WordPress 3.4.1 with theme TwentyEleven in FireFox, Chrome and IE8. Other themes may not be CSS compatible with the plugin. If it's your case, please post on [CodeFlavors forums](http://www.codeflavors.com/codeflavors-forums/ "CodeFlavors Community Forums") the theme you're using, WordPress version and browser used to view the website. 
