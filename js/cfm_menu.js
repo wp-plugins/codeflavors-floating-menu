@@ -1,6 +1,6 @@
 /**
  * @author: CodeFlavors [www.codeflavors.com]
- * @version: 1.0
+ * @version: 1.0.1
  * @framework: jQuery
  */
 
@@ -36,7 +36,8 @@
 		
 		// if first item is the trigger, show the menu only when hovering that item
 		if( $(items[0]).attr('id') == 'cfm_menu_title_li' ){			
-			var main = items.splice(0,1);
+			var main = items.splice(0,1),
+				menuWidth = menu.width();
 			$(main).find('a').click(function(e){
 				e.preventDefault();
 			})
@@ -45,8 +46,10 @@
 
 			$(menu).mouseenter(function(){
 				$(items).show(100);
+				$(main).animate({'width':menuWidth}, 100);
 			}).mouseleave(function(){
-				$(items).hide(200);				
+				$(items).hide(200);
+				$(main).css('width', 'auto');
 			})			
 		}
 		

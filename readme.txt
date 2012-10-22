@@ -7,7 +7,7 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Create navigation menus on the left or right side of any WordPress blog.
+Create animated navigation menus on the left or right side of any WordPress blog.
 
 == Description ==
 
@@ -45,6 +45,9 @@ That's  all, enjoy.
 3. Front-end display
 
 == Changelog ==
+
+= 1.0.1 - October 22nd 2012 =
+* Solved Chrome/Safari bug on menu animation
 
 = 1.0 - August 27th 2012 =
 * Initial release

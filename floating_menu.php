@@ -10,7 +10,7 @@ Plugin Name: CodeFlavors floating menu
 Plugin URI: 
 Description: Displays a floating menu on the right or left side of your WordPress blog.
 Author: CodeFlavors
-Version: 1.0
+Version: 1.0.1
 Author URI: http://www.codeflavors.com
 */	
 
@@ -299,10 +299,10 @@ function cfm_has_menu(){
 function cfm_default_options(){
 	// menu options defaults
 	$defaults = array(
-		'animation' => 'fixed',
-		'position' => 'left',
-		'top_distance' => '50',
-		'menu_title' => ''
+		'animation' 	=> 'fixed',
+		'position' 		=> 'left',
+		'top_distance' 	=> '50',
+		'menu_title' 	=> ''
 	);
 	return $defaults;
 }
