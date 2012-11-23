@@ -46,6 +46,11 @@ That's  all, enjoy.
 
 == Changelog ==
 
+= 1.1 - November 23rd 2012 =
+* Additional option to hide/show menu title
+* Option to hide menu on mobile devices
+* Added class "has-children" on elements having submenus and styles
+
 = 1.0.1 - October 22nd 2012 =
 * Solved Chrome/Safari bug on menu animation
 

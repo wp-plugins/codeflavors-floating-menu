@@ -55,7 +55,8 @@
 				display:block;
 				position:relative;
 				padding:5px 10px 5px;
-			}				
+			}
+		
 		/**
 		 * Submenus
 		 */
@@ -79,12 +80,20 @@
  */	
 
 /**
- * Menu container
+ * Menu container - left side
  */		
 #cfn_floating_menu ul{
 	-moz-box-shadow:2px 2px 2px #CCC;
 	-webkit-box-shadow:2px 2px 2px #CCC;
 	 box-shadow:2px -1px 4px #CCC;
+}
+/**
+ * Menu container - right side
+ */	
+#cfn_floating_menu.right ul{
+	-moz-box-shadow:-2px 2px 2px #CCC;
+	-webkit-box-shadow:-2px 2px 2px #CCC;
+	 box-shadow:-2px -1px 4px #CCC;
 }
 	/**
 	 * Menu anchor container
@@ -97,7 +106,7 @@
 		 * Menu anchor
 		 */
 		#cfn_floating_menu ul li a{
-			background:#000;
+			background-color:#000000;
 			color:#FFF;
 			text-decoration:none;
 		}
@@ -107,6 +116,23 @@
 		#cfn_floating_menu ul li a:HOVER,
 		#cfn_floating_menu ul li a.currentItem{
 			color:#FFF;
-			background:#999;					
+			background-color:#999;					
+		}
+		/**
+		 * Item has children - left sided menu
+		 */
+		#cfn_floating_menu ul li.has-children > a{
+			background-image:url(../images/dots-arrow-right.png);
+			background-position: right center;
+			background-repeat: no-repeat;	
+			padding-right:20px;			
+		}
+		/**
+		 * Item has children - right sided menu
+		 */
+		#cfn_floating_menu.right ul li.has-children > a{
+			background-image:url(../images/dots-arrow-left.png);
+			background-position: left center;
+			padding-left:20px;	
 		}
 		

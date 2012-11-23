@@ -29,7 +29,15 @@
 			$(this).children('ul').show(100);			
 		}).mouseleave(function(){
 			$(this).children('ul').hide(200);
+		}).each( function(i, e){
+			// for menus having children, add class has-children
+			var submenu = $(e).children('ul.sub-menu');
+			if( submenu.length > 0 ){
+				$(this).addClass('has-children');
+			}
 		});
+		
+		
 		
 		// highlight current item from menu
 		$(menu).find('li.current-menu-item').children('a').addClass('currentItem');
@@ -52,7 +60,5 @@
 				$(main).css('width', 'auto');
 			})			
 		}
-		
-	})	
-	
+	})
 })(jQuery);

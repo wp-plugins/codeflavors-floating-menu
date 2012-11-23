@@ -10,7 +10,7 @@ Plugin Name: CodeFlavors floating menu
 Plugin URI: 
 Description: Displays a floating menu on the right or left side of your WordPress blog.
 Author: CodeFlavors
-Version: 1.0.1
+Version: 1.1
 Author URI: http://www.codeflavors.com
 */	
 
@@ -56,20 +56,35 @@ function cfm_admin_page(){
 	<?php endif;?>	
 	<p><?php printf( __('To assign a menu, navigate to %1$sMenus%2$s and select a menu for CodeFlavors floating menu location.', 'cfm_menu'), '<a href="nav-menus.php">', '</a>' );?></p>
 	<form method="post" action="">
+		
+		<!-- Animation option -->
 		<label for="animation"><?php _e('Menu animation', 'cfm_menu');?>: </label>
 		<select name="animation" id="animation">
 			<option value="fixed"><?php _e('Fixed - no animation', 'cfm_menu')?></option>
 			<option value="animated"<?php if('animated'==$options['animation']):?> selected="selected"<?php endif;?>><?php _e('Animated', 'cfm_menu')?></option>
 		</select><br />
+		
+		<!-- Menu position option -->
 		<label for="position"><?php _e('Menu position', 'cfm_menu')?>: </label>
 		<select name="position" id="position">
 			<option value="left"><?php _e('Left', 'cfm_menu');?></option>
 			<option value="right"<?php if('right'==$options['position']):?> selected="selected"<?php endif;?>><?php _e('Right', 'cfm_menu');?></option>
 		</select><br />
+		
+		<!-- Minimum top distance -->
 		<label for="top_distance"><?php _e('Top distance', 'cfm_menu');?>: </label>
 		<input type="text" name="top_distance" value="<?php echo $options['top_distance'];?>" id="top_distance" size="2" /> px.<br />
+		
+		<!-- Menu title -->
 		<label for="menu_title"><?php _e('Menu title');?>: </label>
-		<input type="text" name="menu_title" id="menu_title" value="<?php echo $options['menu_title'];?>" size="60" />
+		<input type="text" name="menu_title" id="menu_title" value="<?php echo $options['menu_title'];?>" size="40" />
+		<input type="checkbox" name="hide_menu_title" id="hide_menu_title" value="1"<?php if(1 == $options['hide_menu_title']):?> checked="checked"<?php endif;?> />
+		<label for="hide_menu_title" class="inline"> <?php _e('hide it', 'cfm_menu');?> </label>
+		<br />
+		
+		<!-- Disable on mobile devices -->
+		<label for="hide_on_mobile"><?php _e('Hide menu on mobile devices', 'cfm_menu');?>: </label>
+		<input type="checkbox" value="1" <?php if(1 == $options['hide_on_mobile']):?> checked="checked"<?php endif;?> name="hide_on_mobile" id="hide_on_mobile" />
 		
 		<?php wp_nonce_field('cfm_update_settings', 'cfm_nonce');?>
 		<?php submit_button( __('Save settings', 'cfm_menu'), 'primary', 'submit' );?>
@@ -150,9 +165,10 @@ function cfm_show_menu(){
 	// plugin options
 	$options = cfm_get_options();
 	$opt = array(
-		'top_distance' => $options['top_distance'],
-		'animate' => 'animated' == $options['animation'] ? 1 : 0,
-		'position' => $options['position']
+		'is_mobile' 	=> wp_is_mobile(),
+		'top_distance' 	=> $options['top_distance'],
+		'animate' 		=> 'animated' == $options['animation'] ? 1 : 0,
+		'position' 		=> $options['position']
 	);
 	
 	// plugin JavaScript params
@@ -218,7 +234,7 @@ function cfm_nav_menu_filter( $sorted_menu_items, $args ){
 	// get options
 	$options = cfm_get_options();
 	// if menu title isn't set, return only the pages list
-	if( !isset($options['menu_title']) || empty($options['menu_title']) ){
+	if( !isset($options['menu_title']) || empty($options['menu_title']) || $options['hide_menu_title'] ){
 		return $sorted_menu_items;
 	}
 	
@@ -260,7 +276,10 @@ function cfm_frontend_styles(){
 	if( is_admin() || !cfm_has_menu() ){
 		return;
 	}	
-	wp_enqueue_style('cfm_frontend_menu', plugins_url('css/cfm_menu.css', __FILE__));
+	wp_enqueue_style(
+		'cfm_frontend_menu', 
+		plugins_url('css/cfm_menu.css', __FILE__)
+	);
 } 
 
 /**
@@ -272,7 +291,11 @@ function cfm_frontend_scripts(){
 	if( is_admin() || !cfm_has_menu() ){
 		return;
 	}
-	wp_enqueue_script('cfm_frontend_menu', plugins_url('js/cfm_menu.js', __FILE__), array('jquery'));	
+	wp_enqueue_script(
+		'cfm-frontend-menu-script', 
+		plugins_url('js/cfm_menu.js', __FILE__), 
+		array('jquery')
+	);
 }
 
 /**************************************************
@@ -284,6 +307,11 @@ function cfm_frontend_scripts(){
  * styles and scripts should load into pages.
  */
 function cfm_has_menu(){
+	// check if it should display on mobile devices
+	if( cfm_prevent_on_mobile() ){
+		return false;
+	}	
+	// check menu locations
 	if ( ( $locations = get_nav_menu_locations() ) && isset( $locations[ CFM_LOCATION ] ) ) {
 		// get menu object
     	$menu = wp_get_nav_menu_object( $locations[ CFM_LOCATION ] );
@@ -293,16 +321,19 @@ function cfm_has_menu(){
 	}
 	return false;
 }
+
 /**
  * Default options
  */
 function cfm_default_options(){
 	// menu options defaults
 	$defaults = array(
-		'animation' 	=> 'fixed',
-		'position' 		=> 'left',
-		'top_distance' 	=> '50',
-		'menu_title' 	=> ''
+		'animation' 		=> 'fixed',
+		'position' 			=> 'left',
+		'top_distance' 		=> '50',
+		'menu_title' 		=> '',
+		'hide_menu_title' 	=> 0,
+		'hide_on_mobile'	=> 0
 	);
 	return $defaults;
 }
@@ -311,6 +342,58 @@ function cfm_default_options(){
  * Database plugin options
  */
 function cfm_get_options(){
+	// get default values for options
 	$defaults = cfm_default_options();
-	return get_option('cfm_floating_menu', $defaults);
+	// get saved options
+	$saved_options = get_option('cfm_floating_menu', $defaults);
+	// check if any defaults are missing (ie. in case of update and extending options, new options would be missing)
+	foreach( $defaults as $option => $value ){
+		if( !isset( $saved_options[$option] ) ){
+			$saved_options[$option] = $value;
+		}
+	}	
+	return $saved_options;
+}
+
+/**
+ * Check if device is mobile and if option 
+ * is set not to display on such devices
+ */
+function cfm_prevent_on_mobile(){
+	// check mobile devices
+	$options = cfm_get_options();
+	if( $options['hide_on_mobile'] && wp_is_mobile() ){
+		return true;
+	}
+	return false;
+}
+
+// WordPress < 3.4 doesn't have the function to detect mobile devices implemented. Below is the original WP function.
+if( !function_exists('wp_is_mobile') ){
+	/**
+	 * Test if the current browser runs on a mobile device (smart phone, tablet, etc.)
+	 *
+	 * @return bool true|false
+	 */
+	function wp_is_mobile() {
+		static $is_mobile;
+	
+		if ( isset($is_mobile) )
+			return $is_mobile;
+	
+		if ( empty($_SERVER['HTTP_USER_AGENT']) ) {
+			$is_mobile = false;
+		} elseif ( strpos($_SERVER['HTTP_USER_AGENT'], 'Mobile') !== false // many mobile devices (all iPhone, iPad, etc.)
+			|| strpos($_SERVER['HTTP_USER_AGENT'], 'Android') !== false
+			|| strpos($_SERVER['HTTP_USER_AGENT'], 'Silk/') !== false
+			|| strpos($_SERVER['HTTP_USER_AGENT'], 'Kindle') !== false
+			|| strpos($_SERVER['HTTP_USER_AGENT'], 'BlackBerry') !== false
+			|| strpos($_SERVER['HTTP_USER_AGENT'], 'Opera Mini') !== false ) {
+				$is_mobile = true;
+		} else {
+			$is_mobile = false;
+		}
+	
+		return $is_mobile;
+	}
 }
