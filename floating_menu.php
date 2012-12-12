@@ -10,7 +10,7 @@ Plugin Name: CodeFlavors floating menu
 Plugin URI: 
 Description: Displays a floating menu on the right or left side of your WordPress blog.
 Author: CodeFlavors
-Version: 1.1
+Version: 1.1.1
 Author URI: http://www.codeflavors.com
 */	
 
@@ -165,7 +165,7 @@ function cfm_show_menu(){
 	// plugin options
 	$options = cfm_get_options();
 	$opt = array(
-		'is_mobile' 	=> wp_is_mobile(),
+		'is_mobile' 	=> cfm_is_mobile(),
 		'top_distance' 	=> $options['top_distance'],
 		'animate' 		=> 'animated' == $options['animation'] ? 1 : 0,
 		'position' 		=> $options['position']
@@ -362,38 +362,38 @@ function cfm_get_options(){
 function cfm_prevent_on_mobile(){
 	// check mobile devices
 	$options = cfm_get_options();
-	if( $options['hide_on_mobile'] && wp_is_mobile() ){
+	if( $options['hide_on_mobile'] && cfm_is_mobile() ){
 		return true;
 	}
 	return false;
 }
 
-// WordPress < 3.4 doesn't have the function to detect mobile devices implemented. Below is the original WP function.
-if( !function_exists('wp_is_mobile') ){
-	/**
-	 * Test if the current browser runs on a mobile device (smart phone, tablet, etc.)
-	 *
-	 * @return bool true|false
-	 */
-	function wp_is_mobile() {
-		static $is_mobile;
-	
-		if ( isset($is_mobile) )
-			return $is_mobile;
-	
-		if ( empty($_SERVER['HTTP_USER_AGENT']) ) {
-			$is_mobile = false;
-		} elseif ( strpos($_SERVER['HTTP_USER_AGENT'], 'Mobile') !== false // many mobile devices (all iPhone, iPad, etc.)
-			|| strpos($_SERVER['HTTP_USER_AGENT'], 'Android') !== false
-			|| strpos($_SERVER['HTTP_USER_AGENT'], 'Silk/') !== false
-			|| strpos($_SERVER['HTTP_USER_AGENT'], 'Kindle') !== false
-			|| strpos($_SERVER['HTTP_USER_AGENT'], 'BlackBerry') !== false
-			|| strpos($_SERVER['HTTP_USER_AGENT'], 'Opera Mini') !== false ) {
-				$is_mobile = true;
-		} else {
-			$is_mobile = false;
-		}
-	
-		return $is_mobile;
+/**
+ * Wrapper function for wp_is_mobile. In older WP versions, the function is missing,
+ * use it on versions that have it or add its functionality if not existing.
+ */
+function cfm_is_mobile(){
+	if( function_exists('wp_is_mobile') ){
+		return wp_is_mobile();
 	}
+	
+	static $is_mobile;
+	
+	if ( isset($is_mobile) )
+		return $is_mobile;
+
+	if ( empty($_SERVER['HTTP_USER_AGENT']) ) {
+		$is_mobile = false;
+	} elseif ( strpos($_SERVER['HTTP_USER_AGENT'], 'Mobile') !== false // many mobile devices (all iPhone, iPad, etc.)
+		|| strpos($_SERVER['HTTP_USER_AGENT'], 'Android') !== false
+		|| strpos($_SERVER['HTTP_USER_AGENT'], 'Silk/') !== false
+		|| strpos($_SERVER['HTTP_USER_AGENT'], 'Kindle') !== false
+		|| strpos($_SERVER['HTTP_USER_AGENT'], 'BlackBerry') !== false
+		|| strpos($_SERVER['HTTP_USER_AGENT'], 'Opera Mini') !== false ) {
+			$is_mobile = true;
+	} else {
+		$is_mobile = false;
+	}
+
+	return $is_mobile;
 }

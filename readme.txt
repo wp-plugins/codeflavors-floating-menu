@@ -46,6 +46,9 @@ That's  all, enjoy.
 
 == Changelog ==
 
+= 1.1.1 - December 12th 2012 =
+* Solves a problem regarding the use of wp_is_mobile() function within the plugin that issues a fatal error on some installations.
+
 = 1.1 - November 23rd 2012 =
 * Additional option to hide/show menu title
 * Option to hide menu on mobile devices
