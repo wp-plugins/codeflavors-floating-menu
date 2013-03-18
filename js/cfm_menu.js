@@ -55,9 +55,11 @@
 			$(menu).mouseenter(function(){
 				$(items).show(100);
 				$(main).animate({'width':menuWidth}, 100);
+				$(menu).css('width', menuWidth);
 			}).mouseleave(function(){
 				$(items).hide(200);
 				$(main).css('width', 'auto');
+				$(menu).css('width', 'auto');
 			})			
 		}
 	})

@@ -46,6 +46,9 @@ That's  all, enjoy.
 
 == Changelog ==
 
+= 1.1.2 - March 18th 2013 =
+* Solved IE9 menu animation bug (menu covered whole page).
+
 = 1.1.1 - December 12th 2012 =
 * Solves a problem regarding the use of wp_is_mobile() function within the plugin that issues a fatal error on some installations.
 

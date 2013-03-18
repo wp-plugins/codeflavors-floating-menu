@@ -10,7 +10,7 @@ Plugin Name: CodeFlavors floating menu
 Plugin URI: 
 Description: Displays a floating menu on the right or left side of your WordPress blog.
 Author: CodeFlavors
-Version: 1.1.1
+Version: 1.1.2
 Author URI: http://www.codeflavors.com
 */	
 
