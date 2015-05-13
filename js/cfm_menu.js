@@ -54,11 +54,11 @@
 
 			$(menu).mouseenter(function(){
 				$(items).show(100);
-				$(main).animate({'width':menuWidth}, 100);
+				$(main).animate({'width':menuWidth}, 100).removeClass('closed');
 				$(menu).css('width', menuWidth);
 			}).mouseleave(function(){
 				$(items).hide(200);
-				$(main).css('width', 'auto');
+				$(main).css('width', 'auto').addClass('closed');
 				$(menu).css('width', 'auto');
 			})			
 		}

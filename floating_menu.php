@@ -7,7 +7,7 @@
 
 /*
 Plugin Name: CodeFlavors floating menu
-Plugin URI: 
+Plugin URI: http://www.codeflavors.com/codeflavors-floating-menu-wordpress-plugin/
 Description: Displays a floating menu on the right or left side of your WordPress blog.
 Author: CodeFlavors
 Version: 1.1.2
@@ -247,7 +247,7 @@ function cfm_nav_menu_filter( $sorted_menu_items, $args ){
 	$item->ID = -1;
 	$item->db_id = -1;
 	$item->is_menu_title = true;
-	$item->classes = array('cfm_menu_title_li');
+	$item->classes = array('cfm_menu_title_li closed');
 	
 	add_filter('nav_menu_item_id', 'cfm_menu_title_filter', 10, 2);
 	

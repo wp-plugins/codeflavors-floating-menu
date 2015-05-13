@@ -46,7 +46,7 @@
 			float:none;
 			width:100%;
 			clear:both;
-			white-space:nowrap;		
+			white-space:nowrap;
 		}
 			/**
 			 * Anchor design
@@ -83,9 +83,11 @@
  * Menu container - left side
  */		
 #cfn_floating_menu ul{
+	/*
 	-moz-box-shadow:2px 2px 2px #CCC;
 	-webkit-box-shadow:2px 2px 2px #CCC;
 	 box-shadow:2px -1px 4px #CCC;
+	 */
 }
 /**
  * Menu container - right side
@@ -101,6 +103,7 @@
 	#cfn_floating_menu ul li{
 		font-size:12px;
 		border-bottom:1px #2B2B2B solid;
+		line-height:20px;
 	}
 		/**
 		 * Menu anchor
@@ -136,3 +139,33 @@
 			padding-left:20px;	
 		}
 		
+#cfn_floating_menu ul li.cfm_menu_title_li{
+	line-height:30px;
+	background:none;
+	font-size:20px;	
+}
+#cfn_floating_menu ul li.cfm_menu_title_li a{
+	background:none;
+	color:#000;
+}		
+		
+#cfn_floating_menu ul li.cfm_menu_title_li.closed{
+	background:#000;
+	border:none;
+	box-shadow:1px 1px 3px #999;
+	border-top-right-radius:5px;	
+	border-bottom-right-radius:5px;	
+}
+		
+#cfn_floating_menu ul li.cfm_menu_title_li.closed a{
+	text-indent:-9999px;
+	background:url(../images/open-menu-ico.png) center center no-repeat transparent;
+	width:32px;
+	height:32px;
+}
+
+@media (max-width : 960px){
+	#cfn_floating_menu{
+		display:none!important;
+	}
+}
